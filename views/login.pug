@@ -1,0 +1,18 @@
+extends layout
+
+block content
+	h1 Login
+
+	p#message= message
+	form#forml(action="", method="POST")
+		input(type="hidden", name="r", value=r)
+		table: tbody
+			tr
+				td User account
+				td: input#user(type="text",name="user",autocomplete="off",value=ret.user)
+			tr
+				td Password
+				td: input#pass(type="password",name="pass",autocomplete="off")
+		button Login
+
+	script(type="text/javascript", src="js/register.p.js")

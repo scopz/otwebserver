@@ -9,3 +9,5 @@ global.MYSQL_DB = {
 	PASSWORD : 'pKalM24Nas',
 	DATABASE : 'tibia'
 }
+
+global.SESSION_COOKIE_NAME = 'gsession';

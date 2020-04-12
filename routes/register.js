@@ -1,8 +1,8 @@
-var express = require('express');
-var dbc = require('../src/dbconnection');
-var sha1 = require('sha1');
-var ipUtils = require('ip2long');
-var router = express.Router();
+const express = require('express');
+const dbc = require('../src/dbconnection');
+const sha1 = require('sha1');
+const ipUtils = require('ip2long');
+const router = express.Router();
 
 module.exports = router;
 
@@ -68,26 +68,26 @@ async function createAccount(req, res, next) {
 		try {
 			await dbc.beginTransaction(connection);
 
-			let rows = await dbc.query(connection, "INSERT INTO `accounts` (`id`, `password`, `email`, `premend`, `blocked`, `warnings`)"+
+			let info = await dbc.query(connection, "INSERT INTO `accounts` (`id`, `password`, `email`, `premend`, `blocked`, `warnings`)"+
 				" VALUES (?,?,?,0,0,0)",[user, pass, email]);
 
-			if (rows.affectedRows == 1) {
+			if (info.affectedRows == 1) {
 				let ip = 0;
 				if (req.ip.startsWith("::ffff:")) {
 					ip = ipUtils.ip2long(req.ip.substr(7));
 				}
 
-				rows = await dbc.query(connection, "INSERT INTO `znote_accounts` (`account_id`, `ip`, `created`)"+
-					" VALUES (?,?,?)",[user, ip, parseInt(new Date().getTime()/1000)]);
+				info = await dbc.query(connection, "INSERT INTO `znote_accounts` (`account_id`, `ip`, `created`)"+
+					" VALUES (?,?,?)", [user, ip, parseInt(new Date().getTime()/1000)]);
 
-				if (rows.affectedRows != 1) {
+				if (info.affectedRows != 1) {
 					req.success = false;
-					req.message = `An error ocurred creating user [0xf4c31f-${rows.affectedRows}]`;
+					req.message = `An error ocurred creating user [0xf4c31f-${info.affectedRows}]`;
 				}
 
 			} else {
 				req.success = false;
-				req.message = `An error ocurred creating user [0x713b92-${rows.affectedRows}]`;
+				req.message = `An error ocurred creating user [0x713b92-${info.affectedRows}]`;
 			}
 
 			if (req.success) {
