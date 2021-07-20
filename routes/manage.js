@@ -3,20 +3,24 @@ const dbc = require('../src/dbconnection');
 const checkLogUser = require('./log').checkLogUser;
 const ipUtils = require('ip2long');
 const router = express.Router();
+const defaults = require('../src/default-config');
 
 /* GET manage main page. */
 router.get('/', checkLogUser, async function(req, res, next) {
 
 	try {
-		let player = await dbc.query(req, 'SELECT * FROM `players` WHERE account_id=?', [req.session.user.id]);
-		res.render('manage', {user: req.session.user, players: player});
+		let players = await dbc.query(req, 'SELECT * FROM `players` WHERE account_id=?', [req.session.user.id]);
+		players.forEach(p => p.vocation = defaults.vocations[p.vocation])
+		players.sort((a,b) => a.name == b.name? 0 : a.name < b.name? -1 : 1);
+
+		res.render('manage', {user: req.session.user, players: players});
 
 	} catch (e) {
 		console.log(e);
 		next(e);
 
 	} finally {
-		dbc.close();
+		dbc.close(req);
 	}
 });
 
@@ -79,7 +83,7 @@ async function createUser(req, res, next) {
 
 		let name = req.body.name;
 		let sex = req.body.sex;
-		let def = require('../src/default-config').character;
+		let def = defaults.character;
 
 		let connection = dbc.connect(req);
 		try {

@@ -1,5 +1,5 @@
-var mysql = require('mysql2');
-var IncomingMessage = require('http').IncomingMessage;
+const mysql = require('mysql2');
+const IncomingMessage = require('http').IncomingMessage;
 
 function newConnection(){
 	let connection = mysql.createConnection({
@@ -21,27 +21,29 @@ function newConnection(){
 }
 
 function connect(req){
-		var connection;
-		if (req == undefined){
-			connection = newConnection();
-			connection.connect();
-			
-		} else if (req.mysqlConn == undefined){
-			connection = newConnection();
-			connection.connect();
-			req.mysqlConn = connection;
+	let connection;
+	if (req == undefined){
+		connection = newConnection();
+		connection.connect();
+		
+	} else if (req.mysqlConn == undefined){
+		connection = newConnection();
+		connection.connect();
+		req.mysqlConn = connection;
 
-		} else {
-			connection = req.mysqlConn;
-		}
-		return connection;
+	} else {
+		connection = req.mysqlConn;
 	}
+	return connection;
+}
 
 module.exports = 
 {
 	connect: connect,
 
 	close: (req)=>{
+		if (!req) throw new Error("Close must receive a connection or request");
+
 		let connection;
 		if (req instanceof IncomingMessage){
 			connection = req.mysqlConn;

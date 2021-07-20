@@ -22,7 +22,7 @@ module.exports = {
 		}
 	},
 
-	vocation: [
+	vocations: [
 		'No vocation',
 		'Sorcerer',
 		'Druid',
@@ -32,6 +32,13 @@ module.exports = {
 		'Elder Druid',
 		'Royal Paladin',
 		'Elite Knight',
+		'Doomcaster',
+		'Sage',
+		'Templar',
+		'Guardian',
+		'Master Doomcaster',
+		'Elder Sage',
+		'Royal Templar',
+		'Elite Guardian',
 	]
-
 }

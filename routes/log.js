@@ -27,7 +27,7 @@ router.post('/login', async function(req, res, next) {
 		res.render('login', {ret: req.body, message: 'An error ocurred validating data', r: req.query.r});
 		console.log(user, e, new Error());
 	} finally {
-		dbc.close();
+		dbc.close(req);
 	}
 });
 
