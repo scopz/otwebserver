@@ -13,7 +13,6 @@ module.exports = {
 		health: 150,
 		mana: 0,
 		cap: 400,
-		soul: 100,
 
 		town: 11,
 		pos: {

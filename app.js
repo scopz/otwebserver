@@ -6,7 +6,6 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const lessModule = require('./src/less-module');
 const logger = require('morgan');
-const jsMinified = require('./src/js-minifier')
 const app = express();
 
 global.DEVELOPMENT = app.get('env') === 'development';
@@ -25,14 +24,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use('*/css', lessModule(__dirname + '/public/css', {
+app.use('*/css', lessModule(__dirname + '/private/less', {
 	cache: !DEVELOPMENT,
 	compress: !DEVELOPMENT,
 	debug: DEVELOPMENT,
-}));
-
-app.use('*/js', jsMinified(__dirname + '/public/js',{
-    presets: [ 'stage-0', 'es2015', 'minify']
 }));
 
 app.use(express.static(path.join(__dirname, 'public')));

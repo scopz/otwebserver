@@ -86,9 +86,9 @@ async function createUser(req, res, next) {
 			await dbc.beginTransaction(connection);
 
 			let info = await dbc.query(connection, "INSERT INTO `players` (`name`,`account_id`,`group_id`,`sex`,`vocation`,`level`,"+
-				"`health`,`mana`,`soul`,`direction`,`lookbody`,`lookfeet`,`lookhead`,`looklegs`,`looktype`,`posx`,`posy`,`posz`,`lastip`,"+
-				"`conditions`,`town_id`,`balance`,`rank_id`,`guildnick`) VALUES (?,?,1,?,?,?,?,?,?,0,?,?,?,?,?,?,?,?,?,'',?,0,0,'')",
-				[name, req.session.user.id, sex, def.vocation, def.level, def.health, def.mana, def.soul, def.lookBody, def.lookFeet,
+				"`health`,`mana`,`direction`,`lookbody`,`lookfeet`,`lookhead`,`looklegs`,`looktype`,`posx`,`posy`,`posz`,`lastip`,"+
+				"`conditions`,`town_id`,`balance`,`rank_id`,`guildnick`) VALUES (?,?,1,?,?,?,?,?,0,?,?,?,?,?,?,?,?,?,'',?,0,0,'')",
+				[name, req.session.user.id, sex, def.vocation, def.level, def.health, def.mana, def.lookBody, def.lookFeet,
 				def.lookHead, def.lookLegs, sex==1?def.maleOutfitId : def.femaleOutfitId, def.pos.x, def.pos.y, def.pos.z, ip, def.town]);
 
 			if (info.affectedRows == 1) {
