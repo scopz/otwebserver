@@ -6,4 +6,17 @@ html
 		link(rel='stylesheet', href='/css/style.css')
 		script(type="text/javascript", src="/js/polyfill.min.js")
 	body
-		block content
+		header
+			h1: a(href="/") Ndria
+			#user-info
+				div
+					if user
+						a(href="/manage") Manage account
+						a(href="/logout") Logout
+					else
+						a(href="/register") Create account
+						a(href="/login") Login
+
+		#page
+			#right-bar
+			#content: block content
