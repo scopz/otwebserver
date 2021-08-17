@@ -33,30 +33,97 @@ button {
 }
 
 
-// HEADER
-header {
-	white-space: nowrap;
+// MENU
+@menuWidth: 200px;
+#page {
+	display:flex;
+}
+#right-bar {
 	background-color: #eee;
-
-	* {
-		width: 50%;
-		vertical-align: middle;
-		display: inline-block;
-	}
+	min-width: @menuWidth;
+	height: 100vh;
 
 	h1 a {
+		display: inline-block;
 		margin-left: 56px;
 		font-size: 1.3em;
 		text-decoration: none;
 		color: inherit;
 	}
+}
+
+@menuItemsPadding: 12px;
+#menu {
+	margin-top: 40px;
+	text-align:center;
+
+	.section {
+			border-bottom: 1px solid black;
+		.head {
+			padding: @menuItemsPadding 0;
+			background-color: #333;
+			color: white;
+			font-weight: bold;
+			cursor: pointer;
+			position: relative;
+
+			&.hide {
+				font-weight: normal;
+				background-color: #444;
+			}
+
+			.bg-animation {
+				position: absolute;
+				left: 0; top:0; bottom:0;
+				right: @menuWidth;
+				background-color: #333;
+				z-index: 0;
+				transition: right .2s
+			}
+
+			&:hover .bg-animation {
+				right:0;
+			}
+
+			.title {
+				position: inherit;
+				z-index:1;
+			}
+		}
+
+		.links {
+			overflow: hidden;
+			transition: height .3s;
+			box-shadow: 0 2px 5px -5px black inset;
+			background-color: #555;
+			a {
+				padding: @menuItemsPadding 0;
+				display:block;
+				color: white;
+				&.selected, &:hover {
+					background-color: #6b8b9b59;
+					text-decoration: none;
+				}
+			}
+		}
+	}
+}
+
+
+// HEADER
+@headerHeight: 100px;
+header {
+	white-space: nowrap;
+	background-color: #eee;
+	height: @headerHeight;
+	position:relative;
 
 	#user-info {
-		text-align: right;
-
-		> div {
-			text-align: left;
-		}
+		position:absolute;
+		top: 50%;
+		right:0;
+		transform: translateY(-50%);
+		width:200px;
 
 		a {
 			display:block;
@@ -65,14 +132,9 @@ header {
 }
 
 
-// MENU
-#page {
-	display:flex;
-}
-#right-bar {
-	background-color: #eee;
-	min-width:200px;
-	height:100vh;
+// CONTENT
+#main-column {
+	flex:1%;
 }
 
 #content {
@@ -82,4 +144,5 @@ header {
 	background-color: white;
 	border: solid #aaa;
 	border-width: 1px 0 0 1px;
+	min-height: calc(100vh - @headerHeight - 11px);
 }

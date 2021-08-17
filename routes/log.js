@@ -18,7 +18,7 @@ router.post('/login', async function(req, res, next) {
 		let found = await dbc.query(req, 'SELECT id, email, premend FROM `accounts` WHERE id=? AND password=?', [user, pass]);
 		if (found.length == 1) {
 			req.session.user = found[0];
-			res.redirect(req.query.r? req.query.r : '/');
+			res.redirect(req.query.r? req.query.r : '/manage');
 
 		} else {
 			res.render('login', {ret: req.body, message: 'User or password incorrect', r: req.query.r});

@@ -6,17 +6,29 @@ html
 		link(rel='stylesheet', href='/css/style.css')
 		script(type="text/javascript", src="/js/polyfill.min.js")
 	body
-		header
-			h1: a(href="/") Ndria
-			#user-info
-				div
+		#page
+			#right-bar
+				h1: a(href="/") Ndria
+
+				#menu
+					.section
+						.head Account
+						.links
+							if user
+								a(href="/manage") Manage account
+								a(href="/logout") Logout
+							else
+								a(href="/login") Login
+								a(href="/register") Create account
+
+			#main-column
+				header: #user-info
 					if user
-						a(href="/manage") Manage account
 						a(href="/logout") Logout
 					else
 						a(href="/register") Create account
 						a(href="/login") Login
 
-		#page
-			#right-bar
-			#content: block content
+				#content: block content
+
+		script(type="text/javascript", src="/js/menu.min.js")

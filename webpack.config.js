@@ -4,7 +4,11 @@ const fs = require('fs');
 const filesConfiguration = [
 // POLYFILLS
 {
-	in: ['core-js'/*,'regenerator-runtime/runtime'*/],
+	in: [
+		'core-js',
+		'./private/js/lib/dom-modifications.js',
+		//'regenerator-runtime/runtime',
+	],
 	out: "polyfill.min.js"
 },
 
