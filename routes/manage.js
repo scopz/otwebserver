@@ -1,8 +1,9 @@
+const createError = require('http-errors');
 const express = require('express');
 const dbc = require('../src/dbconnection');
 const checkLogUser = require('./log').checkLogUser;
 const ipUtils = require('ip2long');
-const router = express.Router();
+const router = module.exports = express.Router();
 const defaults = require('../src/default-config');
 
 /* GET manage main page. */
@@ -27,23 +28,39 @@ router.get('/', checkLogUser, async function(req, res, next) {
 
 /* GET create character page. */
 router.get('/create', checkLogUser, function(req, res, next) {
-	res.render('create', {user: req.session.user, ret:{}});
+	res.render('create-character', {user: req.session.user, ret:{}});
 });
 
-/* GET create character page. */
-router.post('/create', checkLogUser, validate, createUser, function(req, res, next) {
+/* POST delete character. */
+router.post('/create', checkLogUser, validateCreation, createUser, function(req, res, next) {
 	dbc.close(req);
 	if (!req.success) {
-		res.render('create', {user: req.session.user, ret:req.body, message:req.message});
+		res.render('create-character', {user: req.session.user, ret:req.body, message:req.message});
 	} else {
 		res.redirect('/manage');
 	}
 });
 
+/* POST delete character page. */
+router.post('/delete', checkLogUser, deleteUser, async function(req, res, next) {
+	dbc.close(req);
 
-module.exports = router;
+	if (!req.success) {
+		res.status(400);
+		res.json({
+			success: false,
+			msg: req.message,
+		});
+	} else {
+		res.json({
+			success: true,
+			id: req.body.id,
+		})
+	}
+});
 
-async function validate(req, res, next) {
+
+async function validateCreation(req, res, next) {
 	let name = req.body.name;
 	let sex = req.body.sex;
 
@@ -71,8 +88,7 @@ async function validate(req, res, next) {
 		}
 	}
 	next();
-};
-
+}
 
 async function createUser(req, res, next) {
 	if (req.success) {
@@ -101,12 +117,12 @@ async function createUser(req, res, next) {
 
 				if (info.affectedRows != 1) {
 					req.success = false;
-					req.message = `An error ocurred creating user [0xef5506-${info.affectedRows}]`;
+					req.message = `An error ocurred creating character [0xef5506-${info.affectedRows}]`;
 				}
 
 			} else {
 				req.success = false;
-				req.message = `An error ocurred creating user [0x4e7492-${info.affectedRows}]`;
+				req.message = `An error ocurred creating character [0x4e7492-${info.affectedRows}]`;
 			}
 
 			if (req.success) {
@@ -116,10 +132,31 @@ async function createUser(req, res, next) {
 			}
 		} catch (e) {
 			req.success = false;
-			req.message = "An error ocurred creating user [0x82e5a7]";
+			req.message = "An error ocurred creating character [0x82e5a7]";
 			console.log(name, e, new Error());
 			connection.rollback();
 		}
 	}
 	next();
-};
+}
+
+async function deleteUser(req, res, next) {
+	req.success = true;
+
+	try {
+		let info = await dbc.query(req, 'DELETE FROM `players` WHERE id=? AND account_id=?', [req.body.id, req.session.user.id]);
+
+		if (info.affectedRows != 1) {
+			req.message = `An error ocurred deleting character [0x24f29c-${req.body.id}-${info.affectedRows}]`;
+			req.success = false;
+		}
+
+	} catch (e) {
+		console.log(e);
+		req.message = `An error ocurred deleting character [0xa98e72-${req.body.id}]`;
+		req.success = false;
+
+	}
+
+	next();
+}

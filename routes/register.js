@@ -2,10 +2,7 @@ const express = require('express');
 const dbc = require('../src/dbconnection');
 const sha1 = require('sha1');
 const ipUtils = require('ip2long');
-const router = express.Router();
-
-module.exports = router;
-
+const router = module.exports = express.Router();
 
 router.get('/', function(req, res, next) {
 	res.render('register', { ret: {} });

@@ -3,6 +3,11 @@ const dbc = require('../src/dbconnection');
 const sha1 = require('sha1');
 const router = express.Router();
 
+module.exports = {
+	router: router,
+	checkLogUser: checkLogUser,
+} 
+
 /* GET login page. */
 router.get('/login', function(req, res, next) {
 	res.render('login', {ret: {}, r: req.query.r});
@@ -45,11 +50,6 @@ router.get('/logout', function(req, res, next) {
 		}
 	});
 });
-
-module.exports = {
-	router: router,
-	checkLogUser: checkLogUser,
-} 
 
 
 function checkLogUser(req, res, next){
