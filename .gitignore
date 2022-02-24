@@ -63,3 +63,4 @@ typings/
 
 sessions/
 public/
+package-lock.json
