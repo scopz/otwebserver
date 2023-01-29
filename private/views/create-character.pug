@@ -1,0 +1,24 @@
+extends layout
+
+block content
+	h2 Create character
+
+	p#message= message
+	form#formc(action="", method="POST")
+		table: tbody
+			tr
+				td Player name
+				td: input#name(type="text", name="name",autocomplete="off", value=ret.name)
+			tr
+				td Sex
+				td: select#sex(name="sex")
+					option(value="1") Male
+					option(value="0") Female
+
+		button Create
+
+	script(type="text/javascript", src="/js/register.min.js")
+
+	if ret.sex
+		script(type="text/javascript").
+			document.getElementById("sex").value=#{ret.sex};

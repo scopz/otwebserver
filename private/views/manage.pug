@@ -1,0 +1,34 @@
+extends layout
+
+block head
+	link(rel='stylesheet', href='/css/man.css')
+
+block content
+	h2 Manage account
+
+	p#message= message
+	table#pl-table
+		thead
+			tr
+				th Name
+				th Vocation
+				th Level
+				th Delete character
+
+		tbody#pl-tbody
+
+	button#create-char Create character
+
+
+	template#pl-row(style="display:none")
+		tr
+			td
+			td
+			td
+			td.del: button.red
+
+
+	script(type="text/javascript").
+		var players = !{JSON.stringify(players)};
+
+	script(type="text/javascript", src="/js/manage.min.js")

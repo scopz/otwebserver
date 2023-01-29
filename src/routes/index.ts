@@ -1,8 +1,8 @@
-import { Router } from "express";
+import { Router } from 'express';
 
 export const router = Router();
 
 /* GET home page. */
 router.get('/', (req, res, next) =>
-  res.render('index', { title: 'Express' })
+  res.render('index', { user: req.session.user })
 );

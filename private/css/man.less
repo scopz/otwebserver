@@ -1,0 +1,57 @@
+// Manage
+
+table {
+	margin: 20px;
+	border-collapse: collapse;
+
+	th{
+		padding: 10px 20px;
+		background-color: #ddd;
+	}
+
+	td {
+		padding: 5px 10px;
+		text-align:center;
+	}
+
+	td,th {
+		border: 1px solid #777;
+	}
+
+	tr {
+		background-color: #ffffff;
+		&:nth-child(even) {
+			background-color: #f0f0f0;
+		}
+	}
+}
+
+td.del {
+	button {
+		padding: 1px 12px;
+
+		&:after{
+			content: "\2715";
+			font-size: 1.5em;
+		}
+	}
+}
+
+div#tooltip {
+	text-align: center;
+	position: fixed;
+	padding: 2px 6px;
+	background-color: #f25353;
+	border: 2px solid #b91d1d;
+	font-size: 0.9em;
+	border-radius: 2px;
+	pointer-events: none;
+
+	white-space: nowrap;
+	overflow: hidden;
+
+	font-weight: bold;
+	color: white;
+
+	transition: height .2s, padding .2s;
+}

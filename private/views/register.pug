@@ -1,0 +1,28 @@
+extends layout
+
+block content
+	h2 Create account
+
+	if success
+		p Account #{ret.user} created
+		a(href="") Back
+
+	else
+		p#message= message
+		form#form(action="", method="POST")
+			table: tbody
+				tr
+					td User account
+					td: input#user(type="text",name="user",autocomplete="off",value=ret.user)
+				tr
+					td Password
+					td: input#pass(type="password",name="pass",autocomplete="off",value=ret.pass)
+				tr
+					td Repeat password
+					td: input#pass2(type="password",autocomplete="off")
+				tr
+					td Email
+					td: input#email(type="email",name="email",autocomplete="off",value=ret.email)
+			button Create
+
+		script(type="text/javascript", src="/js/register.min.js")

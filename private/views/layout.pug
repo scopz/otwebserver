@@ -1,8 +1,35 @@
 doctype html
 html
 	head
-		title= title
+		meta(charset="utf-8")
+		title Ndria
 		link(rel='stylesheet', href='/css/style.css')
+		block head
+		script(type="text/javascript", src="/js/polyfill.min.js")
 	body
-		block content
-		script(type='text/javacript', src='js/index.min.js')
+		#page
+			#right-bar
+				h1: a(href="/") Ndria
+
+				#menu
+					.section
+						.head Account
+						.links
+							if user
+								a(href="/manage") Manage account
+								a(href="/logout") Logout
+							else
+								a(href="/login") Login
+								a(href="/register") Create account
+
+			#main-column
+				header: #user-info
+					if user
+						a(href="/logout") Logout
+					else
+						a(href="/register") Create account
+						a(href="/login") Login
+
+				#content: block content
+
+		script(type="text/javascript", src="/js/menu.min.js")

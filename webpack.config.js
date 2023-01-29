@@ -66,7 +66,12 @@ module.exports = jsFilesConfiguration.map(entry => ({
                 presets: ['@babel/preset-env']
               }
             },
-            'ts-loader',
+            {
+              loader: 'ts-loader',
+              options: {
+                configFile: 'tsconfig.webpack.json'
+              }
+            },
           ]
         }
       ],
